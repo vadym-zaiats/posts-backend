@@ -4,22 +4,22 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16"
-
-      - name: Install backend dependencies
+      - name: install backend dependencies
         run: npm install
 
-      - name: Build backend
+      - name: eslint check
+        run: npm run lint
+
+      - name: build backend
         run: npm run build
