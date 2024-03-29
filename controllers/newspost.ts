@@ -11,89 +11,117 @@ import {
 } from "../services/errorHandler";
 import { type DecodedToken } from "../interfaces/interfaces";
 import jwt from "jsonwebtoken";
+import { errorHandler } from "../services/errorHandler";
 
 const postRepository = AppDataSource.getRepository(Posts);
 const userRepository = AppDataSource.getRepository(Users);
 
 class NewsPostController {
   async getAllPosts(req: Request, res: Response) {
-    const skip = parseInt(req.query.skip as string) || 0;
-    const take = parseInt(req.query.take as string) || 2;
+    try {
+      const skip = parseInt(req.query.skip as string) || 0;
+      const take = parseInt(req.query.take as string) || 2;
 
-    const paginatedPosts = await AppDataSource.manager.find(Posts, {
-      relations: ["author"],
-      skip,
-      take,
-    });
-    const allPosts = await AppDataSource.manager.find(Posts);
+      const paginatedPosts = await AppDataSource.manager.find(Posts, {
+        relations: ["author"],
+        skip,
+        take,
+      });
+      const allPosts = await AppDataSource.manager.find(Posts);
 
-    if (!allPosts) {
-      throw new NewspostsServiceError(
-        "Помилка на сервері при отриманні усіх постів"
-      );
+      if (!allPosts) {
+        throw new NewspostsServiceError(
+          "Помилка на сервері при отриманні усіх постів"
+        );
+      }
+
+      const allPostsLength = allPosts.length;
+
+      return res.status(200).json({ allPosts: paginatedPosts, allPostsLength });
+    } catch (error) {
+      errorHandler(error, req, res);
     }
-
-    const allPostsLength = allPosts.length;
-
-    return res.status(200).json({ allPosts: paginatedPosts, allPostsLength });
   }
 
   async getPostById(req: Request, res: Response) {
-    const id = parseInt(req.params.id);
-
-    const post = await postRepository.find({
-      where: { id },
-      relations: ["author"],
-    });
-
-    if (!post) {
-      throw new NewspostsServiceError(
-        `Помилка на сервері при отриманні посту по id: ${id}`
-      );
+    try {
+      const id = parseInt(req.params.id);
+      const post = await postRepository.findOne({
+        where: { id },
+        relations: ["author"],
+      });
+      if (!post) {
+        throw new NewspostsServiceError(`Цього посту не існує. ID ${id} ???`);
+      }
+      return res.status(200).json(post);
+    } catch (error) {
+      errorHandler(error, req, res);
     }
-    return res.status(200).json(post);
   }
+  // async getPostById(req: Request, res: Response) {
+  //   try {
+  //     const id = parseInt(req.params.id);
+
+  //     const post = await postRepository.find({
+  //       where: { id },
+  //       relations: ["author"],
+  //     });
+
+  //     if (!post) {
+  //       throw new NewspostsServiceError(
+  //         `Помилка на сервері при отриманні посту по id: ${id} !!!`
+  //       );
+  //     }
+  //     return res.status(200).json(post);
+  //   } catch (error) {
+  //     errorHandler(error, req, res);
+  //   }
+  // }
 
   async createNewPost(req: Request, res: Response) {
-    const check: any = checkPostService(req.body);
-    if (check?.length > 0) {
-      throw new ValidationError(check[0].message);
-    }
+    try {
+      const check: any = checkPostService(req.body);
+      if (check?.length > 0) {
+        throw new ValidationError(check[0].message);
+      }
 
-    const token = req.headers.authorization?.split(" ")[1];
-    if (!token) {
-      throw new LoginError(check[0].message);
-    }
+      const token = req.headers.authorization?.split(" ")[1];
+      if (!token) {
+        throw new LoginError(check[0].message);
+      }
 
-    const decodedData: DecodedToken = await new Promise((resolve, reject) => {
-      jwt.verify(token, "secret", async (err, decoded: any) => {
-        if (err) {
-          reject(null);
-        } else {
-          resolve(decoded);
-        }
+      const decodedData: DecodedToken = await new Promise((resolve, reject) => {
+        jwt.verify(token, "secret", async (err, decoded: any) => {
+          if (err) {
+            reject(null);
+          } else {
+            resolve(decoded);
+          }
+        });
       });
-    });
-    const { email } = decodedData;
+      const { email } = decodedData;
 
-    const user = await userRepository.findOneBy({
-      email,
-    });
+      const user = await userRepository.findOneBy({
+        email,
+      });
 
-    if (!user) {
-      throw new Error("Користувача з таким email не знайдено");
+      if (!user) {
+        throw new Error("Користувача з таким email не знайдено");
+      }
+
+      const { title, text, genre, isPrivate } = req.body;
+      const post = new Posts();
+      post.title = title;
+      post.text = text;
+      post.genre = genre;
+      post.isPrivate = isPrivate;
+      post.author = user;
+
+      await postRepository.save(post);
+      return res.status(200).json(post);
+    } catch (error) {
+      errorHandler(error, req, res);
     }
-
-    const { title, text, genre, isPrivate } = req.body;
-    const post = new Posts();
-    post.title = title;
-    post.text = text;
-    post.genre = genre;
-    post.isPrivate = isPrivate;
-    post.author = user;
-
-    await postRepository.save(post);
-    return res.status(200).json(post);
   }
 
   async editPost(req: Request, res: Response) {
@@ -105,8 +133,10 @@ class NewsPostController {
     const id = parseInt(req.params.id);
     const { title, text, genre, isPrivate } = req.body;
     try {
-      const post = await postRepository.findOneOrFail({ where: { id } });
-
+      const post = await postRepository.findOne({ where: { id } });
+      if (!post) {
+        throw new NewspostsServiceError(`Посту з ${id} не існує`);
+      }
       if (title !== undefined) {
         post.title = title;
       }
@@ -124,15 +154,17 @@ class NewsPostController {
       // Повернення оновленого посту
       return res.status(200).json(post);
     } catch (error) {
-      throw new NewspostsServiceError(`Посту з ${id} не існує`);
+      errorHandler(error, req, res);
     }
   }
 
   async deletePost(req: Request, res: Response) {
     const id = parseInt(req.params.id);
     try {
-      await postRepository.findOneOrFail({ where: { id } });
-
+      const post = await postRepository.findOne({ where: { id } });
+      if (!post) {
+        throw new NewspostsServiceError(`Посту з ${id} не існує`);
+      }
       await postRepository
         .createQueryBuilder()
         .delete()
@@ -142,7 +174,7 @@ class NewsPostController {
 
       return res.status(200).json({ message: `Пост з id: ${id} видалено` });
     } catch (error) {
-      throw new NewspostsServiceError(`Посту з ${id} не існує`);
+      errorHandler(error, req, res);
     }
   }
 }

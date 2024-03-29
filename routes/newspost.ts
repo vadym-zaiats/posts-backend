@@ -1,7 +1,6 @@
 import express, { Router } from "express";
 import bodyParser from "body-parser";
 import NewsPostController from "../controllers/newspost";
-import { tryCatch } from "../services/trycatch";
 import passport from "passport";
 
 class PostRouter {
@@ -16,22 +15,22 @@ class PostRouter {
     this.router.use(bodyParser.json());
     this.router
       .route("/")
-      .get(tryCatch(NewsPostController.getAllPosts))
+      .get(NewsPostController.getAllPosts)
       .post(
         passport.authenticate("bearer", { session: false }),
-        tryCatch(NewsPostController.createNewPost)
+        NewsPostController.createNewPost
       );
 
     this.router
       .route("/:id")
-      .get(tryCatch(NewsPostController.getPostById))
+      .get(NewsPostController.getPostById)
       .put(
         passport.authenticate("bearer", { session: false }),
-        tryCatch(NewsPostController.editPost)
+        NewsPostController.editPost
       )
       .delete(
         passport.authenticate("bearer", { session: false }),
-        tryCatch(NewsPostController.deletePost)
+        NewsPostController.deletePost
       );
   }
 }
