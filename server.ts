@@ -1,8 +1,8 @@
 import express, { type Express } from "express";
 import cors from "cors";
-import fs from "fs";
-import path from "path";
-import morgan from "morgan";
+// import fs from "fs";
+// import path from "path";
+// import morgan from "morgan";
 import newspostsConfigs from "./routes/newspost";
 import userConfigs from "./routes/user";
 import { errorHandler } from "./services/errorHandler";
@@ -12,16 +12,16 @@ import { AppDataSource } from "./db/data-source";
 import * as dotenv from "dotenv";
 import "reflect-metadata";
 
-const logsDir = path.join(__dirname, "logs");
-if (!fs.existsSync(logsDir)) {
-  fs.mkdirSync(logsDir);
-}
-export const accessLogStream = fs.createWriteStream(
-  path.join(logsDir, "access.log"),
-  {
-    flags: "a",
-  }
-);
+// const logsDir = path.join(__dirname, "logs");
+// if (!fs.existsSync(logsDir)) {
+//   fs.mkdirSync(logsDir);
+// }
+// export const accessLogStream = fs.createWriteStream(
+//   path.join(logsDir, "access.log"),
+//   {
+//     flags: "a",
+//   }
+// );
 
 class Server {
   app: Express;
@@ -56,6 +56,7 @@ class Server {
   private configureMiddleware(): void {
     this.app.use(cors());
     passport.use(bearerStrategy);
+    // logs
     // Потік для виведення журналу у консоль
     // this.app.use(
     //   morgan("dev", {
@@ -63,21 +64,21 @@ class Server {
     //   })
     // );
     // Логування для morgan
-    this.app.use(
-      morgan(
-        (tokens, req, res) => {
-          return [
-            `HTTP method: ${tokens.method(req, res)}\n`,
-            `URL: ${tokens.url(req, res)}\n`,
-            `Status: ${tokens.status(req, res)}\n`,
-            `Body: ${JSON.stringify(req.body)}\n`,
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-            `Time: ${new Date()}\n`,
-          ].join(" ");
-        },
-        { stream: accessLogStream }
-      )
-    );
+    // this.app.use(
+    //   morgan(
+    //     (tokens, req, res) => {
+    //       return [
+    //         `HTTP method: ${tokens.method(req, res)}\n`,
+    //         `URL: ${tokens.url(req, res)}\n`,
+    //         `Status: ${tokens.status(req, res)}\n`,
+    //         `Body: ${JSON.stringify(req.body)}\n`,
+    //         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    //         `Time: ${new Date()}\n`,
+    //       ].join(" ");
+    //     },
+    //     { stream: accessLogStream }
+    //   )
+    // );
   }
 
   private configureRoutes(): void {
