@@ -1,0 +1,28 @@
+.card__link {
+  color: aliceblue;
+  width: 100%;
+  height: 100%;
+  &:hover {
+    color: rgb(198, 201, 202);
+  }
+}
+
+.card__item {
+  width: 88%;
+  height: 88%;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid aliceblue;
+  margin-bottom: 10px;
+  &:hover {
+    border: 1px solid rgb(198, 201, 202);
+    cursor: pointer;
+  }
+}
+
+.card__text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

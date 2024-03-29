@@ -7,3 +7,5 @@ ts-node facker - create fake users with def pass q123456
 npm run typeorm migration:run -- -d db/data-source.ts
 
 npm run typeorm migration:revert -- -d db/data-source.ts
+
+npm run dev (default port http://localhost:5173/) - start fontend

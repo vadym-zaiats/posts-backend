@@ -20,7 +20,7 @@ class NewsPostController {
   async getAllPosts(req: Request, res: Response) {
     try {
       const skip = parseInt(req.query.skip as string) || 0;
-      const take = parseInt(req.query.take as string) || 2;
+      const take = parseInt(req.query.take as string) || 100; // усі
 
       const paginatedPosts = await AppDataSource.manager.find(Posts, {
         relations: ["author"],
@@ -58,25 +58,6 @@ class NewsPostController {
       errorHandler(error, req, res);
     }
   }
-  // async getPostById(req: Request, res: Response) {
-  //   try {
-  //     const id = parseInt(req.params.id);
-
-  //     const post = await postRepository.find({
-  //       where: { id },
-  //       relations: ["author"],
-  //     });
-
-  //     if (!post) {
-  //       throw new NewspostsServiceError(
-  //         `Помилка на сервері при отриманні посту по id: ${id} !!!`
-  //       );
-  //     }
-  //     return res.status(200).json(post);
-  //   } catch (error) {
-  //     errorHandler(error, req, res);
-  //   }
-  // }
 
   async createNewPost(req: Request, res: Response) {
     try {
