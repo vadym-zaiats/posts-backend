@@ -7,11 +7,11 @@ dotenv.config();
 
 export const AppDataSource = new DataSource({
   type: "mysql",
-  host: "127.0.0.1",
+  host: "34.123.7.81",
   port: 3306,
   username: "root",
-  password: "12345678",
-  database: "homework-13",
+  password: "Qwerty12345",
+  database: "homework-15",
   synchronize: true,
   logging: false,
   entities: [Users, Posts],

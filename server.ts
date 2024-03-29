@@ -31,7 +31,7 @@ class Server {
   constructor() {
     this.app = express();
     dotenv.config();
-    this.HOST = process.env.HOST ?? "localhost";
+    this.HOST = process.env.HOST ?? "34.123.7.81";
     this.PORT = Number(process.env.PORT) ?? 9000;
     this.configureMiddleware();
     this.configureRoutes();
