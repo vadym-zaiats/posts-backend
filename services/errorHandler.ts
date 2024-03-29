@@ -68,12 +68,13 @@ export const errorHandler = (err: Error, req: Request, res: Response) => {
     // );
 
     return res.status(200).send(`Помилка реєстрації: ${err.message}`);
-  } else {
-    // logs
-    // accessLogStream.write(
-    //   `Невідома помилка: ${err.message}, Time: ${new Date()}\n`
-    // );
-
-    return res.status(500).send("Невідома помилка");
   }
+  // else {
+  //   // logs
+  //   // accessLogStream.write(
+  //   //   `Невідома помилка: ${err.message}, Time: ${new Date()}\n`
+  //   // );
+
+  //   return res.status(500).send("Невідома помилка");
+  // }
 };
