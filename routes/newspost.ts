@@ -33,9 +33,9 @@ class PostRouter {
         NewsPostController.deletePost
       );
 
-    this.router.route("/qwe").get(() => {
-      console.log("CHECK");
-    });
+    // this.router.route("/qwe").get((res, req) => {
+    //   ret res.status(200).json({ message: `!!!!!!!!!!!!` });
+    // });
   }
 }
 
