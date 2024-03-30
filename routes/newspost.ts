@@ -32,6 +32,10 @@ class PostRouter {
         passport.authenticate("bearer", { session: false }),
         NewsPostController.deletePost
       );
+
+    this.router.route("/qwe").get(() => {
+      console.log("CHECK");
+    });
   }
 }
 
