@@ -86,8 +86,6 @@ class UserController {
   }
 
   async getUsersPosts(req: Request, res: Response) {
-    console.log("getUsersPosts!!!");
-
     try {
       const userId = parseInt(req.params.userId);
       // const post = await postRepository.findOne({
