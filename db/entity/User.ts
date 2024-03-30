@@ -2,7 +2,13 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/semi */
 /* eslint-disable @typescript-eslint/quotes */
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  Index,
+} from "typeorm";
 import { Posts } from "./Posts";
 
 @Entity()
@@ -11,6 +17,7 @@ export class Users {
   id: number;
 
   @Column()
+  @Index()
   email: string;
 
   @Column()

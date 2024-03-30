@@ -7,10 +7,13 @@ import {
   LoginError,
   ExistingUserError,
   ValidationError,
+  NewspostsServiceError,
 } from "../services/errorHandler";
 import { errorHandler } from "../services/errorHandler";
+import { Posts } from "../db/entity/Posts";
 
 const userRepository = AppDataSource.getRepository(Users);
+const postsRepository = AppDataSource.getRepository(Posts);
 
 class UserController {
   async signUp(req: Request, res: Response) {
@@ -77,6 +80,28 @@ class UserController {
         }
         return res.json(decodedData.email);
       }
+    } catch (error) {
+      errorHandler(error, req, res);
+    }
+  }
+
+  async getUsersPosts(req: Request, res: Response) {
+    console.log("getUsersPosts!!!");
+
+    try {
+      const userId = parseInt(req.params.userId);
+      // const post = await postRepository.findOne({
+      //   where: { id },
+      //   relations: ["author"],
+      // });
+      const posts = await postsRepository.find({
+        where: { author: { id: userId } },
+      });
+      //
+      if (!posts) {
+        throw new NewspostsServiceError(`getPostByUser ERROR`);
+      }
+      return res.status(200).json(posts);
     } catch (error) {
       errorHandler(error, req, res);
     }

@@ -21,7 +21,4 @@ export const AppDataSource = new DataSource({
       : "migration/**/*.js",
   ],
   subscribers: [],
-  extra: {
-    connectTimeout: 10000, // This sets the connection timeout to 10 seconds
-  },
 });

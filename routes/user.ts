@@ -20,6 +20,11 @@ class UserRouter {
       passport.authenticate("bearer", { session: false }),
       UserController.isUser
     );
+    this.router.get(
+      "/user/:userId/posts",
+      passport.authenticate("bearer", { session: false }),
+      UserController.getUsersPosts
+    );
   }
 }
 
