@@ -15,7 +15,7 @@ export const AppDataSource = new DataSource({
   // password: "12345678",
   port: 3306,
   // username: "root",
-  username: "test-project-dia-396408:us-central1:homework-15",
+  username: "test-project-dia-396408",
   // connectTimeout: 20000,
   synchronize: true,
   logging: false,
