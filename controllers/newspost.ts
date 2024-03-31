@@ -28,7 +28,7 @@ class NewsPostController {
         take,
       });
 
-      return res.status(200).json({ paginatedPosts });
+      // return res.status(200).json({ paginatedPosts });
 
       const allPosts = await AppDataSource.manager.find(Posts);
 
