@@ -17,6 +17,14 @@ const postRepository = AppDataSource.getRepository(Posts);
 const userRepository = AppDataSource.getRepository(Users);
 
 class NewsPostController {
+  async demoController(req: Request, res: Response) {
+    try {
+      return res.status(200).json({ demo: "text" });
+    } catch (error) {
+      errorHandler(error, req, res);
+    }
+  }
+
   async getAllPosts(req: Request, res: Response) {
     try {
       const skip = parseInt(req.query.skip as string) || 0;

@@ -13,6 +13,8 @@ class PostRouter {
 
   private config(): void {
     this.router.use(bodyParser.json());
+    this.router.route("/demo").get(NewsPostController.demoController);
+
     this.router
       .route("/")
       .get(NewsPostController.getAllPosts)
