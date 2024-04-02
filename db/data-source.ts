@@ -6,12 +6,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export const AppDataSource = new DataSource({
-  type: "mysql",
-  port: 3306,
-  username: "root",
-  database: "homework-15",
-  host: "34.123.7.81",
-  password: "Qwerty12345",
+  type: "postgres",
+  port: 5432,
+  username: "hdkwhldt",
+  database: "hdkwhldt",
+  host: "horton.db.elephantsql.com",
+  password: "Y3L3pkZqB02mQUap8iNDBytFpJlrFf_F",
   // username: process.env.DB_USERNAME,
   // database: process.env.DB_DATABASE,
   // host: process.env.DB_HOST,
