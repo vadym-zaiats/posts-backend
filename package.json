@@ -52,6 +52,7 @@
     "mysql": "^2.18.1",
     "passport": "^0.7.0",
     "passport-http-bearer": "^1.0.1",
+    "pg": "^8.11.4",
     "random-js": "^2.1.0",
     "reflect-metadata": "^0.2.1",
     "typeorm": "^0.3.20",
