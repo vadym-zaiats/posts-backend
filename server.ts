@@ -25,12 +25,14 @@ import "reflect-metadata";
 
 class Server {
   app: Express;
+  HOST: string;
   PORT: number;
 
   constructor() {
     this.app = express();
     dotenv.config();
-    this.PORT = Number(process.env.PORT) || 9000;
+    this.HOST = process.env.HOST ?? "34.123.7.81";
+    this.PORT = Number(process.env.PORT) ?? 9000;
     this.configureMiddleware();
     this.configureRoutes();
     this.configureErrorHandling();
