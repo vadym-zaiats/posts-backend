@@ -6,12 +6,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export const AppDataSource = new DataSource({
-  type: "postgres",
-  port: 5432,
-  username: process.env.DB_USERNAME,
-  database: process.env.DB_DATABASE,
-  host: process.env.DB_HOST,
-  password: process.env.DB_PASSWORD,
+  type: "mysql",
+  port: 3306,
+  username: "admin",
+  database: "my_database",
+  host: "database-1.c5a26a8qu2hb.us-east-2.rds.amazonaws.com",
+  password: "Qwerty12345",
   synchronize: true,
   logging: false,
   entities: [Users, Posts],
