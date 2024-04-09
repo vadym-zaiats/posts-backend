@@ -30,7 +30,7 @@ class Server {
 
   constructor() {
     this.app = express();
-    this.PORT = Number(process.env.PORT) ?? 8000;
+    this.PORT = Number(process.env.PORT) || 8000;
     dotenv.config();
     this.configureMiddleware();
     this.configureRoutes();
