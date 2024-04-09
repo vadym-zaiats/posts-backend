@@ -58,3 +58,5 @@ error.log
 
 tmp/
 temp/
+
+swagger-output.json
