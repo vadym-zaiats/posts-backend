@@ -25,15 +25,15 @@ const swaggerOptions = {
 
 const swaggerDocument = swaggerJSDoc(swaggerOptions);
 
-const ioServiceInstance = IoService.getInstance();
-
 class Server {
   app: Express;
   PORT: number;
+  ioServiceInstance: IoService;
 
   constructor() {
     this.app = express();
     this.PORT = Number(process.env.PORT) || 8000;
+    this.ioServiceInstance = IoService.getInstance();
     dotenv.config();
     this.configureMiddleware();
     this.configureRoutes();
@@ -76,7 +76,7 @@ class Server {
   }
 
   public start(): void {
-    ioServiceInstance.ws();
+    this.ioServiceInstance.ws();
     this.app.listen(this.PORT, () => {
       console.log(`Server is running on port ${this.PORT}`);
     });

@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { type Request, type Response } from "express";
+import jwt from "jsonwebtoken";
+import { IoService } from "../services/io";
 import { checkPostService } from "../validation/posts";
 import { Posts } from "../db/entity/Posts";
 import { Users } from "../db/entity/User";
@@ -10,7 +12,6 @@ import {
   LoginError,
 } from "../services/errorHandler";
 import { type DecodedToken } from "../interfaces/interfaces";
-import jwt from "jsonwebtoken";
 import { errorHandler } from "../services/errorHandler";
 
 const postRepository = AppDataSource.getRepository(Posts);
@@ -112,6 +113,9 @@ class NewsPostController {
       await postRepository.save(post);
 
       // SOCKET IO
+      IoService.getInstance().io.emit("newpost", {
+        message: "new-post created",
+      });
 
       return res.status(200).json(post);
     } catch (error) {

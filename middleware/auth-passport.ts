@@ -12,8 +12,6 @@ const authMiddleware = async (
   token: string,
   done: (err: Error | null, user?: any) => void
 ) => {
-  console.log("СПРАЦЮВАВ PASSPORT.JS");
-
   const decodedData: DecodedToken = await new Promise((resolve, reject) => {
     jwt.verify(token, "secret", async (err, decoded: any) => {
       if (err) {
@@ -29,18 +27,18 @@ const authMiddleware = async (
   });
 
   if (!isUserExist) {
-    console.log("authMiddleware NO USER");
+    console.log("PASSPORT.JS - NO USER");
     done(null, null);
     return;
   }
 
   if (decodedData.password !== password) {
-    console.log("authMiddleware WRONG PASSWORD");
+    console.log("PASSPORT.JS - WRONG PASSWORD");
     done(null, null);
     return;
   }
 
-  console.log("authMiddleware SUCCESS");
+  console.log("PASSPORT.JS - SUCCESS");
   done(null, decodedData);
 };
 

@@ -2,7 +2,7 @@ import { Server } from "socket.io";
 
 export class IoService {
   private static instance: IoService;
-  private io: Server;
+  public io: Server;
   private WS_PORT: number;
 
   constructor() {
@@ -14,6 +14,7 @@ export class IoService {
     this.io.listen(this.WS_PORT);
     this.io.on("connection", (socket) => {
       console.log(`User ${socket.id} connected`);
+
       socket.on("disconnect", () => {
         console.log(`User ${socket.id} disconnected`);
       });
