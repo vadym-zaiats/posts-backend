@@ -117,7 +117,11 @@ class NewsPostController {
         },
       });
 
-      const messages = alertUsers
+      const filteredAlertUsers = alertUsers.filter(
+        (alertUser) => alertUser.email !== user.email
+      );
+
+      const messages = filteredAlertUsers
         .map((alertUser) => {
           if (alertUser.notificationChannel) {
             return {
