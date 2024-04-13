@@ -22,3 +22,17 @@ export const AppDataSource = new DataSource({
   ],
   subscribers: [],
 });
+
+// export const AppDataSource = new DataSource({
+//   type: "mysql",
+//   host: "127.0.0.1",
+//   port: 3306,
+//   username: "root",
+//   password: "12345678",
+//   database: "homework-13",
+//   synchronize: true,
+//   logging: false,
+//   entities: [Users, Posts],
+//   migrations: ["db/migration/**/*.ts"],
+//   subscribers: [],
+// });

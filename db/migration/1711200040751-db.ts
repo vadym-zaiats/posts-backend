@@ -8,15 +8,25 @@ import { MigrationInterface, QueryRunner, TableColumn } from "typeorm";
 export class Db1711200040751 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Додаємо нове поле 'deleted' зі значенням за замовчуванням false до таблиці 'posts'
-    await queryRunner.addColumn(
-      "posts",
-      new TableColumn({
-        name: "deleted",
-        type: "boolean",
-        default: false,
-      })
-    );
-    // Додаємо нове поле 'deleted' зі значенням за замовчуванням false до таблиці 'users'
+    // await queryRunner.addColumn(
+    //   "posts",
+    //   new TableColumn({
+    //     name: "deleted",
+    //     type: "boolean",
+    //     default: false,
+    //   })
+    // );
+    // // Додаємо нове поле 'deleted' зі значенням за замовчуванням false до таблиці 'users'
+    // await queryRunner.addColumn(
+    //   "users",
+    //   new TableColumn({
+    //     name: "deleted",
+    //     type: "boolean",
+    //     default: false,
+    //   })
+    // );
+    // // Перейменовуємо колонку 'title' на 'header' у таблиці 'posts'
+    // await queryRunner.renameColumn("posts", "title", "header");
     await queryRunner.addColumn(
       "users",
       new TableColumn({
@@ -25,8 +35,6 @@ export class Db1711200040751 implements MigrationInterface {
         default: false,
       })
     );
-    // Перейменовуємо колонку 'title' на 'header' у таблиці 'posts'
-    await queryRunner.renameColumn("posts", "title", "header");
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
