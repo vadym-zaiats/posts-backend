@@ -79,6 +79,7 @@ class NewsPostController {
       }
 
       const token = req.headers.authorization?.split(" ")[1];
+
       if (!token) {
         throw new LoginError(check[0].message);
       }
@@ -110,11 +111,34 @@ class NewsPostController {
       post.isPrivate = isPrivate;
       post.author = user;
 
+      const alertUsers = await userRepository.find({
+        where: {
+          sendNotification: true,
+        },
+      });
+
+      const messages = alertUsers
+        .map((alertUser) => {
+          if (alertUser.notificationChannel) {
+            return {
+              userEmail: alertUser.email,
+              channel: alertUser.notificationChannel,
+            };
+          }
+          return null;
+        })
+        .filter((message) => message !== null);
+
+      console.log("messages", messages);
+
       await postRepository.save(post);
 
       // SOCKET IO
-      IoService.io.emit("newpost", {
-        message: "new-post created",
+      messages.forEach((message) => {
+        IoService.io.emit("newpost", {
+          userEmail: message?.userEmail,
+          log: message?.channel,
+        });
       });
 
       return res.status(200).json(post);

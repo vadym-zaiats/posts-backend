@@ -64,7 +64,7 @@ class Server {
     this.app.use("/api/auth/", userConfigs);
     this.app.use("/api/newsposts/", newspostsConfigs);
     this.app.use(
-      "/api-docs",
+      "/api/docs",
       swaggerUi.serve,
       swaggerUi.setup(swaggerDocument)
     );

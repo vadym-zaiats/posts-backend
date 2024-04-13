@@ -68,7 +68,7 @@ class UserRouter {
 
     /**
      * @swagger
-     * /api/auth/user:
+     * /api/user:
      *   get:
      *     summary: Get current user
      *     tags:
