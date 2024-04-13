@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
-import { IoService } from "../services/io";
+import IoService from "../services/io";
 import { checkPostService } from "../validation/posts";
 import { Posts } from "../db/entity/Posts";
 import { Users } from "../db/entity/User";
@@ -113,7 +113,7 @@ class NewsPostController {
       await postRepository.save(post);
 
       // SOCKET IO
-      IoService.getInstance().io.emit("newpost", {
+      IoService.io.emit("newpost", {
         message: "new-post created",
       });
 
