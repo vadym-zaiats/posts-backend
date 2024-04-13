@@ -4,6 +4,7 @@ import passport from "passport";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import * as dotenv from "dotenv";
+import IoService from "./services/io";
 import newspostsConfigs from "./routes/newspost";
 import userConfigs from "./routes/user";
 import { errorHandler } from "./services/errorHandler";
@@ -31,6 +32,7 @@ class Server {
   constructor() {
     this.app = express();
     this.PORT = Number(process.env.PORT) || 8000;
+
     dotenv.config();
     this.configureMiddleware();
     this.configureRoutes();
@@ -62,7 +64,7 @@ class Server {
     this.app.use("/api/auth/", userConfigs);
     this.app.use("/api/newsposts/", newspostsConfigs);
     this.app.use(
-      "/api-docs",
+      "/api/docs",
       swaggerUi.serve,
       swaggerUi.setup(swaggerDocument)
     );
@@ -73,6 +75,7 @@ class Server {
   }
 
   public start(): void {
+    IoService.ws();
     this.app.listen(this.PORT, () => {
       console.log(`Server is running on port ${this.PORT}`);
     });

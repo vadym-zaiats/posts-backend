@@ -78,6 +78,8 @@ class UserController {
         if (!decodedData) {
           throw new LoginError("токен відсутній або сд сплив");
         }
+        console.log(decodedData);
+
         return res.json(decodedData.email);
       }
     } catch (error) {

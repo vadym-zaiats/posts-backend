@@ -27,6 +27,14 @@ export class Db1711200040751 implements MigrationInterface {
     );
     // Перейменовуємо колонку 'title' на 'header' у таблиці 'posts'
     await queryRunner.renameColumn("posts", "title", "header");
+    await queryRunner.addColumn(
+      "users",
+      new TableColumn({
+        name: "deleted",
+        type: "boolean",
+        default: false,
+      })
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
