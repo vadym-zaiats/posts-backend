@@ -110,6 +110,9 @@ class NewsPostController {
       post.author = user;
 
       await postRepository.save(post);
+
+      // SOCKET IO
+
       return res.status(200).json(post);
     } catch (error) {
       errorHandler(error, req, res);

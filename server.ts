@@ -4,6 +4,7 @@ import passport from "passport";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import * as dotenv from "dotenv";
+import { IoService } from "./services/io";
 import newspostsConfigs from "./routes/newspost";
 import userConfigs from "./routes/user";
 import { errorHandler } from "./services/errorHandler";
@@ -23,6 +24,8 @@ const swaggerOptions = {
 };
 
 const swaggerDocument = swaggerJSDoc(swaggerOptions);
+
+const ioServiceInstance = IoService.getInstance();
 
 class Server {
   app: Express;
@@ -73,6 +76,7 @@ class Server {
   }
 
   public start(): void {
+    ioServiceInstance.ws();
     this.app.listen(this.PORT, () => {
       console.log(`Server is running on port ${this.PORT}`);
     });
